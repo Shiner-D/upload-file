@@ -1,17 +1,15 @@
-# practice
-
-大文件上传实现步骤
-
-1、获取文件信息，进行分片；
-function createChunks(file, chunkSize){
-	const result = [];
-	for(let i = 0; i< file.size; i+= chunkSize) {
-		result.push(file.slice(i, i+chunkSize))
-	}
-	return result;
-}
-
-2、计算文件hash值；使用增量算法计算文件hash值，减少内存占用；
-
 # upload-file
-大文件分片上传，断点续传，秒传，Large file fragment upload, breakpoint resume, second transfer
+
+大文件分片上传，断点续传，秒传
+
+## 1、分片
+
+创建cutFile方法对大文件进行分片，使用web Worker多线程计算出每个分片的hash值；使用spark-md5计算分片文件的hash值；然后通过每个分片的hash值生成文件hash值。
+
+## 2、校验
+
+配合后端校验接口，通过文件hash值，判断文件是否上传过，如果上传过则跳过上传，直接提示文件上传成功，若文件只上传部分块， 通过返回已上传的分块hash值数组，过滤出未上传的分块； 如果没上传过则上传分片文件。
+
+## 3、上传
+
+上传成功后，通过后端接口，将分片文件合并成完整的文件。
