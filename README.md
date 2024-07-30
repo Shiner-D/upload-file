@@ -12,3 +12,6 @@ function createChunks(file, chunkSize){
 }
 
 2、计算文件hash值；使用增量算法计算文件hash值，减少内存占用；
+
+# upload-file
+大文件分片上传，断点续传，秒传，Large file fragment upload, breakpoint resume, second transfer
